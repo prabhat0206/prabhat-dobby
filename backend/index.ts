@@ -12,6 +12,6 @@ app.use(cors());
 app.use("/api/auth", userRouter);
 app.use("/api/image", imageRouter);
 
-app.listen(8000, () => {
-  console.log("server is listening at 8000");
+app.listen(8080, () => {
+  console.log("server is listening at 8080");
 });

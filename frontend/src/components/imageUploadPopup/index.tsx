@@ -1,12 +1,30 @@
+import { Store } from "../../context";
 import React from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ImageUploadPopup(): JSX.Element {
   const imageRef = React.useRef<any>();
-  const [image, setImage] = React.useState<File | null>(null);
+  const [imageLocal, setImage] = React.useState<File | null>(null);
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   const [name, setName] = React.useState<string>("");
+  const { image, showHidePopup } = React.useContext(Store);
+
+  const handleSubmit = async () => {
+    if (imageLocal && name) {
+      await toast.promise(image.uploadImage(imageLocal, name), {
+        pending: "Uploading image...",
+        success: "Image uploaded successfully",
+        error: "Error uploading image",
+      });
+      setImage(null);
+      setName("");
+      setImagePreview(null);
+    } else {
+      toast.error("Please select image and name");
+    }
+  };
 
   return (
     <div
@@ -15,6 +33,7 @@ export default function ImageUploadPopup(): JSX.Element {
     >
       <div className="flex w-full h-full justify-center items-center">
         <FaTimes
+          onClick={showHidePopup}
           color="white"
           className="absolute top-4 right-4 text-2xl cursor-pointer"
         />
@@ -22,10 +41,10 @@ export default function ImageUploadPopup(): JSX.Element {
           <div className="flex w-full mb-4 flex-col md:flex-row items-center">
             <label
               className={`w-full flex items-center ${
-                image ? "p-0" : "bg-gray-200  p-3"
+                imageLocal ? "p-0" : "bg-gray-200  p-3"
               } text-blue rounded-lg overflow-hidden tracking-wide border border-blue cursor-pointer`}
             >
-              {image ? (
+              {imageLocal ? (
                 <div
                   ref={imageRef}
                   style={{
@@ -86,7 +105,10 @@ export default function ImageUploadPopup(): JSX.Element {
             </span>
           )}
           {image && name && (
-            <button className=" bg-purple-600 mt-3 text-white p-2 px-4 flex justify-center items-center rounded-xl">
+            <button
+              onClick={handleSubmit}
+              className=" bg-purple-600 mt-3 text-white p-2 px-4 flex justify-center items-center rounded-xl"
+            >
               <AiOutlineCloudUpload className="mr-1" /> Upload
             </button>
           )}
