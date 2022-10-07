@@ -4,7 +4,7 @@ export default function ImageCard(props: {
   name: string;
 }) {
   return (
-    <div className="flex w-[25%] p-2 h-[30vh] ">
+    <div className="flex w-[100%] sm:w-[50%] lg:w-[25%] p-2 h-[30vh] ">
       <div
         className="flex w-full h-full group bg-cover bg-center rounded-xl overflow-hidden"
         style={{

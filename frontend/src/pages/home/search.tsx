@@ -12,7 +12,7 @@ export default function Search() {
   }, []);
 
   return (
-    <div className="flex flex-1 flex-col overflow-y-auto px-16 pt-10">
+    <div className="flex flex-1 flex-col overflow-y-auto px-4 sm:px-16 pt-10">
       <h1 className="text-sm text-white">images ({image.images.length})</h1>
       <div className="flex flex-wrap py-3">
         {image.images.map((image) => (
